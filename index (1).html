@@ -1,0 +1,1408 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Ciclo de Ajuda Mútua - Sistema de Indicação</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=yes">
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+    color: #f1f5f9;
+    min-height: 100vh;
+}
+
+header {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    padding: 18px 20px;
+    text-align: center;
+    font-size: 22px;
+    font-weight: bold;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    letter-spacing: 1px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.container {
+    max-width: 550px;
+    margin: 0 auto;
+    padding: 20px;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+h2, h3 {
+    color: #10b981;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+h2 {
+    border-left: 4px solid #10b981;
+    padding-left: 12px;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 12px 15px;
+    margin: 8px 0;
+    border: 1px solid #334155;
+    border-radius: 12px;
+    background: #1e293b;
+    color: #f1f5f9;
+    font-size: 14px;
+    transition: all 0.2s ease;
+    outline: none;
+}
+
+input:focus {
+    border-color: #10b981;
+    box-shadow: 0 0 0 3px rgba(16,185,129,0.2);
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 16px;
+    transition: transform 0.1s ease, box-shadow 0.2s ease;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+button:active {
+    transform: scale(0.97);
+}
+
+button.secondary {
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+}
+
+button.danger {
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+}
+
+button.warning {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+}
+
+button.outline {
+    background: transparent;
+    border: 2px solid #10b981;
+    color: #10b981;
+    box-shadow: none;
+}
+
+button.outline:active {
+    background: rgba(16,185,129,0.1);
+}
+
+button.whatsapp {
+    background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+}
+
+button.small {
+    padding: 8px 12px;
+    font-size: 12px;
+    width: auto;
+}
+
+.card {
+    background: rgba(30, 41, 59, 0.9);
+    backdrop-filter: blur(2px);
+    padding: 20px;
+    border-radius: 20px;
+    margin-top: 20px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+    border: 1px solid rgba(16,185,129,0.2);
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+}
+
+.status-badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.status-pendente {
+    background: #f59e0b;
+    color: #1e293b;
+}
+
+.status-aprovado {
+    background: #10b981;
+    color: white;
+}
+
+.status-reprovado {
+    background: #ef4444;
+    color: white;
+}
+
+.status-aguardando_comprovante {
+    background: #8b5cf6;
+    color: white;
+}
+
+.hidden {
+    display: none !important;
+}
+
+img {
+    width: 100%;
+    border-radius: 16px;
+    margin-top: 10px;
+    border: 1px solid #334155;
+    max-height: 200px;
+    object-fit: cover;
+}
+
+hr {
+    margin: 20px 0;
+    border-color: #334155;
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid #334155;
+}
+
+.info-label {
+    font-weight: bold;
+    color: #10b981;
+}
+
+.badge-fila {
+    background: #10b981;
+    border-radius: 30px;
+    padding: 6px 14px;
+    font-weight: bold;
+    display: inline-block;
+}
+
+.fila-number {
+    font-size: 28px;
+    font-weight: bold;
+    color: #10b981;
+}
+
+.logout-btn {
+    background: #334155;
+    margin-top: 20px;
+    box-shadow: none;
+}
+
+.logout-btn:active {
+    transform: scale(0.97);
+}
+
+.admin-panel {
+    margin-top: 20px;
+}
+
+.user-card {
+    background: #0f172a;
+    margin-bottom: 15px;
+    border-left: 3px solid #10b981;
+}
+
+.button-group {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+}
+
+.button-group button {
+    flex: 1;
+    margin: 0;
+    min-width: 80px;
+}
+
+small {
+    color: #94a3b8;
+    font-size: 12px;
+}
+
+.alert {
+    background: #f59e0b20;
+    border-left: 3px solid #f59e0b;
+    padding: 12px;
+    border-radius: 12px;
+    margin: 15px 0;
+}
+
+.success {
+    background: #10b98120;
+    border-left: 3px solid #10b981;
+    padding: 12px;
+    border-radius: 12px;
+    margin: 15px 0;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    font-size: 12px;
+    color: #64748b;
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.8);
+    backdrop-filter: blur(5px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    max-width: 500px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    background: #0f172a;
+    border-radius: 24px;
+    padding: 24px;
+    border: 1px solid #10b981;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.modal-header h3 {
+    margin: 0;
+}
+
+.close-modal {
+    background: none;
+    width: auto;
+    padding: 5px 12px;
+    font-size: 24px;
+    margin: 0;
+    box-shadow: none;
+    color: #94a3b8;
+}
+
+.close-modal:active {
+    transform: scale(0.95);
+}
+
+.auth-buttons {
+    display: flex;
+    gap: 12px;
+    margin-top: 10px;
+}
+
+.auth-buttons button {
+    margin: 0;
+}
+
+.auth-buttons button:first-child {
+    flex: 2;
+}
+
+.auth-buttons button:last-child {
+    flex: 1;
+}
+
+.link-container {
+    background: #0f172a;
+    padding: 12px;
+    border-radius: 12px;
+    margin: 10px 0;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.link-container input {
+    flex: 1;
+    margin: 0;
+    font-size: 12px;
+    background: #1e293b;
+}
+
+.link-container button {
+    width: auto;
+    margin: 0;
+    padding: 10px 15px;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 15px;
+}
+
+.stat-card {
+    background: #0f172a;
+    padding: 15px;
+    border-radius: 16px;
+    text-align: center;
+}
+
+.stat-number {
+    font-size: 32px;
+    font-weight: bold;
+    color: #10b981;
+}
+
+.stat-label {
+    font-size: 12px;
+    color: #94a3b8;
+    margin-top: 5px;
+}
+
+.file-input-area {
+    border: 2px dashed #334155;
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    margin: 10px 0;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.file-input-area:hover {
+    border-color: #10b981;
+    background: rgba(16,185,129,0.05);
+}
+
+.preview-image {
+    margin-top: 10px;
+    max-height: 150px;
+    object-fit: contain;
+}
+
+.indicados-list {
+    max-height: 300px;
+    overflow-y: auto;
+    margin-top: 15px;
+}
+
+.indicado-item {
+    background: #0f172a;
+    padding: 12px;
+    border-radius: 12px;
+    margin-bottom: 10px;
+    border-left: 3px solid;
+}
+
+.indicado-item.aprovado {
+    border-left-color: #10b981;
+}
+
+.indicado-item.pendente {
+    border-left-color: #f59e0b;
+}
+
+.indicado-item.reprovado {
+    border-left-color: #ef4444;
+}
+
+.indicado-item.aguardando {
+    border-left-color: #8b5cf6;
+}
+
+.indicado-nome {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.indicado-email {
+    font-size: 11px;
+    color: #94a3b8;
+    word-break: break-all;
+}
+
+.indicado-status {
+    font-size: 11px;
+    margin-top: 5px;
+}
+
+.tab-buttons {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+
+.tab-btn {
+    flex: 1;
+    background: #1e293b;
+    margin: 0;
+    font-size: 12px;
+    padding: 8px;
+}
+
+.tab-btn.active {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+}
+
+.whatsapp-input-group {
+    display: flex;
+    gap: 10px;
+    margin: 10px 0;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.whatsapp-input-group input {
+    flex: 1;
+    margin: 0;
+}
+
+.whatsapp-input-group button {
+    width: auto;
+    margin: 0;
+    padding: 12px 20px;
+}
+</style>
+</head>
+<body>
+
+<header>🔄 Ciclo de Ajuda Mútua</header>
+
+<!-- Tela de Autenticação -->
+<div class="container" id="auth">
+    <h2>🔐 Acessar Conta</h2>
+    <input type="email" id="loginEmail" placeholder="Seu e-mail" autocomplete="email">
+    <input type="password" id="loginSenha" placeholder="Sua senha" autocomplete="current-password">
+    
+    <div class="auth-buttons">
+        <button onclick="login()">📱 Entrar</button>
+        <button class="outline" onclick="abrirModalCadastro()">📝 Cadastrar</button>
+    </div>
+    
+    <button class="secondary" onclick="abrirAdmin()">👑 Acesso Administrador</button>
+    <small style="display:block; text-align:center; margin-top:15px;">* Após cadastro, envie seu comprovante no painel e aguarde aprovação</small>
+</div>
+
+<!-- Painel do Usuário -->
+<div class="container hidden" id="app">
+    <h2>👤 Meu Painel</h2>
+    <div class="card">
+        <div class="info-row">
+            <span class="info-label">Nome:</span>
+            <span id="userNome" style="font-weight:bold;"></span>
+        </div>
+        <div class="info-row">
+            <span class="info-label">E-mail:</span>
+            <span id="userEmail" style="font-weight:bold;"></span>
+        </div>
+        <div class="info-row">
+            <span class="info-label">Status:</span>
+            <span id="status"></span>
+        </div>
+        <div class="info-row">
+            <span class="info-label">Nível:</span>
+            <span id="nivel"></span>
+        </div>
+        <div class="info-row">
+            <span class="info-label">📌 Posição na Fila:</span>
+            <span id="fila" class="fila-number"></span>
+        </div>
+        <div class="info-row">
+            <span class="info-label">🏆 Total Indicações:</span>
+            <span id="totalIndicacoes" style="font-weight:bold; color:#10b981;"></span>
+        </div>
+    </div>
+
+    <!-- Sistema de Indicação -->
+    <div class="card">
+        <h3>🔗 Seu Link de Indicação</h3>
+        <div class="link-container">
+            <input type="text" id="meuLinkIndicacao" readonly onclick="this.select()">
+            <button class="secondary" onclick="copiarLink()">📋 Copiar</button>
+        </div>
+        
+        <h3 style="margin-top:15px;">📱 Enviar via WhatsApp</h3>
+        <div class="whatsapp-input-group">
+            <input type="tel" id="whatsappNumero" placeholder="Número do WhatsApp (ex: 5511999999999)">
+            <button class="whatsapp" onclick="enviarWhatsApp()">📱 Enviar</button>
+        </div>
+        <small>Digite o número com DDD e país (ex: 5511999999999)</small>
+    </div>
+
+    <div class="card">
+        <h3>📊 Estatísticas de Indicação</h3>
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number" id="indicadosPendentes">0</div>
+                <div class="stat-label">Indicações Pendentes</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="indicadosAprovados">0</div>
+                <div class="stat-label">Indicações Aprovadas</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="indicadosReprovados">0</div>
+                <div class="stat-label">Indicações Reprovadas</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="indicadosAguardando">0</div>
+                <div class="stat-label">Aguardando Comprovante</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lista de Indicados -->
+    <div class="card">
+        <h3>👥 Meus Indicados</h3>
+        <div class="tab-buttons">
+            <button class="tab-btn active" onclick="filtrarIndicados('todos', this)">📋 Todos</button>
+            <button class="tab-btn" onclick="filtrarIndicados('aprovado', this)">✅ Aprovados</button>
+            <button class="tab-btn" onclick="filtrarIndicados('pendente', this)">⏳ Pendentes</button>
+            <button class="tab-btn" onclick="filtrarIndicados('aguardando', this)">📎 Ag. Comprovante</button>
+            <button class="tab-btn" onclick="filtrarIndicados('reprovado', this)">❌ Reprovados</button>
+        </div>
+        <div id="listaIndicados" class="indicados-list">
+            <div style="text-align:center; padding:20px;">Carregando...</div>
+        </div>
+    </div>
+
+    <!-- Envio de Comprovante -->
+    <div class="card" id="cardComprovante">
+        <h3>📎 Enviar Comprovante de Pagamento</h3>
+        <div class="file-input-area" onclick="document.getElementById('comprovanteInput').click()">
+            📁 Clique aqui ou arraste uma imagem
+            <input type="file" id="comprovanteInput" accept="image/*" style="display:none" onchange="previewComprovante(this)">
+        </div>
+        <img id="previewComprovante" class="preview-image hidden" alt="Pré-visualização">
+        <button id="btnEnviarComprovante" onclick="enviarComprovante()">📤 Enviar Comprovante</button>
+        <small>Envie seu comprovante de pagamento (JPEG, PNG - máx 5MB)</small>
+    </div>
+
+    <div class="card">
+        <h3>🖼️ Meu Comprovante Enviado</h3>
+        <img id="imgComp" alt="Comprovante">
+        <small id="comprovanteStatus"></small>
+    </div>
+
+    <button class="logout-btn" onclick="logout()">🚪 Sair da Conta</button>
+</div>
+
+<!-- Painel Administrativo -->
+<div class="container hidden" id="admin">
+    <h2>🔒 Área Restrita</h2>
+    <input type="password" id="adminSenha" placeholder="Senha do Administrador">
+    <button onclick="loginAdmin()">🔓 Acessar Painel</button>
+
+    <div id="painelAdmin" class="hidden admin-panel"></div>
+    <button class="logout-btn" onclick="logout()">⬅️ Voltar</button>
+</div>
+
+<footer>🔐 Sistema seguro • Ciclo de Ajuda Mútua v2.0</footer>
+
+<!-- Modal de Cadastro (sem comprovante) -->
+<div id="modalCadastro" class="modal hidden">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>📝 Criar Nova Conta</h3>
+            <button class="close-modal" onclick="fecharModalCadastro()">✕</button>
+        </div>
+        
+        <input type="text" id="modalNome" placeholder="Nome completo" autocomplete="name">
+        <input type="email" id="modalEmail" placeholder="E-mail" autocomplete="email">
+        <input type="password" id="modalSenha" placeholder="Senha (mínimo 4 caracteres)" autocomplete="new-password">
+        <input type="tel" id="modalTelefone" placeholder="Telefone (ex: 11 99999-9999)">
+        <input type="tel" id="modalWhatsapp" placeholder="WhatsApp (mesmo ou outro)">
+        <input type="text" id="modalPix" placeholder="Chave Pix (CPF, email ou telefone)">
+        <input type="text" id="modalCodigoIndicacao" placeholder="Código de indicação (e-mail do indicador)">
+        
+        <button onclick="cadastrarModal()">✅ Criar Conta</button>
+        <small style="display:block; text-align:center; margin-top:10px;">* Após criar a conta, faça login e envie seu comprovante</small>
+    </div>
+</div>
+
+<!-- Modal de Confirmação de Exclusão -->
+<div id="modalExcluir" class="modal hidden">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>⚠️ Confirmar Exclusão</h3>
+            <button class="close-modal" onclick="fecharModalExcluir()">✕</button>
+        </div>
+        <p id="excluirMensagem" style="margin-bottom: 20px;">Tem certeza que deseja excluir este usuário?</p>
+        <div class="button-group">
+            <button class="danger" onclick="confirmarExcluir()">✅ Sim, Excluir</button>
+            <button class="secondary" onclick="fecharModalExcluir()">❌ Cancelar</button>
+        </div>
+    </div>
+</div>
+
+<script>
+// CONFIGURAÇÕES
+const ADMIN_SENHA = "123456";
+const BASE_URL = "https://sites.google.com/view/ciclo-ajuda-mutua/inicio"; // Link fixo do Google Sites
+
+let usuarioParaExcluir = null;
+
+// ========== FUNÇÕES DE CRIPTOGRAFIA PARA EMAIL ==========
+function codificarEmailParaLink(email) {
+    email = email.trim().toLowerCase();
+    let encoded = btoa(email);
+    encoded = encoded.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+    return encoded;
+}
+
+function decodificarEmailDoLink(codigo) {
+    try {
+        let base64 = codigo.replace(/-/g, '+').replace(/_/g, '/');
+        while (base64.length % 4) {
+            base64 += '=';
+        }
+        let email = atob(base64);
+        return email;
+    } catch(e) {
+        return null;
+    }
+}
+
+function getBaseUrl() {
+    return BASE_URL;
+}
+
+// ========== FUNÇÕES DE BANCO DE DADOS LOCAL ==========
+function db() {
+    return JSON.parse(localStorage.getItem("usuarios") || "[]");
+}
+
+function salvarDB(data) {
+    localStorage.setItem("usuarios", JSON.stringify(data));
+}
+
+function atualizarPosicoesFila() {
+    let usuarios = db();
+    let aprovados = usuarios.filter(u => u.status === "Aprovado");
+    aprovados.sort((a,b) => (a.dataCadastro || a.id) - (b.dataCadastro || b.id));
+    let pos = 1;
+    for (let ap of aprovados) {
+        let idx = usuarios.findIndex(u => u.id === ap.id);
+        if (idx !== -1) usuarios[idx].fila = pos++;
+    }
+    for (let u of usuarios) {
+        if (u.status === "Pendente") u.fila = "Aguardando";
+        if (u.status === "Reprovado") u.fila = "Reprovado";
+        if (u.status === "Aguardando Comprovante") u.fila = "Aguardando envio";
+    }
+    salvarDB(usuarios);
+}
+
+function atualizarEstatisticasIndicacao(userEmail) {
+    let usuarios = db();
+    let user = usuarios.find(u => u.email === userEmail);
+    if (!user) return;
+    
+    let indicados = usuarios.filter(u => u.indicadoPor === user.email);
+    let pendentes = indicados.filter(u => u.status === "Pendente").length;
+    let aprovados = indicados.filter(u => u.status === "Aprovado").length;
+    let reprovados = indicados.filter(u => u.status === "Reprovado").length;
+    let aguardando = indicados.filter(u => u.status === "Aguardando Comprovante").length;
+    
+    user.totalIndicacoes = indicados.length;
+    user.indicadosPendentes = pendentes;
+    user.indicadosAprovados = aprovados;
+    user.indicadosReprovados = reprovados;
+    user.indicadosAguardando = aguardando;
+    
+    salvarDB(usuarios);
+}
+
+function excluirUsuario(userId) {
+    let usuarios = db();
+    let userIndex = usuarios.findIndex(u => u.id == userId);
+    
+    if (userIndex !== -1) {
+        let user = usuarios[userIndex];
+        let indicadorEmail = user.indicadoPor;
+        
+        usuarios.splice(userIndex, 1);
+        salvarDB(usuarios);
+        
+        if (indicadorEmail) {
+            atualizarEstatisticasIndicacao(indicadorEmail);
+        }
+        
+        atualizarPosicoesFila();
+        
+        alert(`✅ Usuário ${user.nome} foi excluído com sucesso!`);
+        
+        let logadoEmail = localStorage.getItem("logado");
+        if (logadoEmail === user.email) {
+            logout();
+        }
+        
+        if (document.getElementById("painelAdmin") && !document.getElementById("painelAdmin").classList.contains("hidden")) {
+            listarUsuarios();
+        }
+    }
+}
+
+function abrirModalExcluir(userId, userName) {
+    usuarioParaExcluir = userId;
+    document.getElementById("excluirMensagem").innerHTML = `Tem certeza que deseja excluir o usuário <strong>${escapeHtml(userName)}</strong>?<br><br>⚠️ Esta ação é irreversível!`;
+    document.getElementById("modalExcluir").classList.remove("hidden");
+}
+
+function fecharModalExcluir() {
+    document.getElementById("modalExcluir").classList.add("hidden");
+    usuarioParaExcluir = null;
+}
+
+function confirmarExcluir() {
+    if (usuarioParaExcluir) {
+        excluirUsuario(usuarioParaExcluir);
+        fecharModalExcluir();
+    }
+}
+
+// ========== FUNÇÕES DO MODAL ==========
+function abrirModalCadastro() {
+    document.getElementById("modalCadastro").classList.remove("hidden");
+    document.getElementById("modalNome").value = "";
+    document.getElementById("modalEmail").value = "";
+    document.getElementById("modalSenha").value = "";
+    document.getElementById("modalTelefone").value = "";
+    document.getElementById("modalWhatsapp").value = "";
+    document.getElementById("modalPix").value = "";
+    document.getElementById("modalCodigoIndicacao").value = "";
+}
+
+function fecharModalCadastro() {
+    document.getElementById("modalCadastro").classList.add("hidden");
+}
+
+function cadastrarModal() {
+    let usuarios = db();
+    let nome = document.getElementById("modalNome");
+    let email = document.getElementById("modalEmail");
+    let senha = document.getElementById("modalSenha");
+    let telefone = document.getElementById("modalTelefone");
+    let whatsapp = document.getElementById("modalWhatsapp");
+    let pix = document.getElementById("modalPix");
+    let codigoIndicacao = document.getElementById("modalCodigoIndicacao").value.trim();
+
+    if (!nome.value.trim()) {
+        alert("❌ Por favor, informe seu nome completo.");
+        return;
+    }
+    if (!email.value.trim() || !email.value.includes("@")) {
+        alert("❌ E-mail inválido.");
+        return;
+    }
+    if (!senha.value || senha.value.length < 4) {
+        alert("❌ A senha deve ter no mínimo 4 caracteres.");
+        return;
+    }
+    if (!telefone.value.trim()) {
+        alert("❌ Informe seu telefone.");
+        return;
+    }
+    if (!pix.value.trim()) {
+        alert("❌ Informe uma chave Pix.");
+        return;
+    }
+
+    let emailLower = email.value.trim().toLowerCase();
+    if (usuarios.find(u => u.email === emailLower)) {
+        alert("⚠️ Este e-mail já está cadastrado!");
+        return;
+    }
+
+    let indicadorEmail = null;
+    let indicadorNome = null;
+    if (codigoIndicacao) {
+        let indicador = usuarios.find(u => u.email === codigoIndicacao && u.status === "Aprovado");
+        if (indicador) {
+            indicadorEmail = indicador.email;
+            indicadorNome = indicador.nome;
+        } else {
+            if (!confirm("⚠️ Código de indicação inválido! Deseja continuar sem indicação?")) {
+                return;
+            }
+        }
+    }
+    
+    let novoUsuario = {
+        id: Date.now(),
+        nome: nome.value.trim(),
+        email: emailLower,
+        senha: senha.value,
+        telefone: telefone.value.trim(),
+        whatsapp: whatsapp.value.trim() || telefone.value.trim(),
+        pix: pix.value.trim(),
+        nivel: 1,
+        fila: "Aguardando envio",
+        status: "Aguardando Comprovante",
+        comprovante: null,
+        dataCadastro: new Date().toISOString(),
+        indicadoPor: indicadorEmail || null,
+        indicadorNome: indicadorNome || null,
+        totalIndicacoes: 0,
+        indicadosPendentes: 0,
+        indicadosAprovados: 0,
+        indicadosReprovados: 0,
+        indicadosAguardando: 0
+    };
+    
+    usuarios.push(novoUsuario);
+    salvarDB(usuarios);
+    
+    if (indicadorEmail) {
+        atualizarEstatisticasIndicacao(indicadorEmail);
+    }
+    
+    alert("✅ Conta criada com sucesso! Agora faça login e envie seu comprovante de pagamento.");
+    fecharModalCadastro();
+}
+
+// ========== FUNÇÕES DE COMPROVANTE ==========
+let comprovanteTemp = null;
+
+function previewComprovante(input) {
+    if (input.files && input.files[0]) {
+        let file = input.files[0];
+        if (!file.type.startsWith("image/")) {
+            alert("❌ Envie apenas arquivos de imagem (JPEG, PNG).");
+            return;
+        }
+        if (file.size > 5 * 1024 * 1024) {
+            alert("📁 A imagem deve ter no máximo 5MB.");
+            return;
+        }
+        
+        let reader = new FileReader();
+        reader.onload = function(e) {
+            let preview = document.getElementById("previewComprovante");
+            preview.src = e.target.result;
+            preview.classList.remove("hidden");
+            comprovanteTemp = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
+}
+
+function enviarComprovante() {
+    if (!comprovanteTemp) {
+        alert("❌ Selecione um comprovante primeiro!");
+        return;
+    }
+    
+    let email = localStorage.getItem("logado");
+    if (!email) return;
+    
+    let usuarios = db();
+    let userIndex = usuarios.findIndex(u => u.email === email);
+    
+    if (userIndex !== -1) {
+        usuarios[userIndex].comprovante = comprovanteTemp;
+        if (usuarios[userIndex].status === "Aguardando Comprovante") {
+            usuarios[userIndex].status = "Pendente";
+            usuarios[userIndex].fila = "Aguardando";
+        }
+        salvarDB(usuarios);
+        
+        alert("✅ Comprovante enviado com sucesso! Aguarde a aprovação do administrador.");
+        
+        document.getElementById("previewComprovante").classList.add("hidden");
+        document.getElementById("comprovanteInput").value = "";
+        comprovanteTemp = null;
+        
+        carregarApp();
+    }
+}
+
+// ========== LOGIN USUÁRIO ==========
+function login() {
+    let email = document.getElementById("loginEmail").value.trim().toLowerCase();
+    let senha = document.getElementById("loginSenha").value;
+    let usuarios = db();
+    let user = usuarios.find(u => u.email === email && u.senha === senha);
+
+    if (!user) {
+        alert("❌ E-mail ou senha incorretos.");
+        return;
+    }
+
+    localStorage.setItem("logado", user.email);
+    carregarApp();
+}
+
+let filtroAtual = "todos";
+let filtroBtnAtual = null;
+
+function filtrarIndicados(filtro, btn) {
+    filtroAtual = filtro;
+    
+    if (btn) {
+        document.querySelectorAll('.tab-btn').forEach(b => {
+            b.classList.remove('active');
+        });
+        btn.classList.add('active');
+    }
+    
+    let email = localStorage.getItem("logado");
+    if (email) {
+        renderizarListaIndicados(email);
+    }
+}
+
+function renderizarListaIndicados(userEmail) {
+    let usuarios = db();
+    let indicados = usuarios.filter(u => u.indicadoPor === userEmail);
+    
+    let filtrados = indicados;
+    if (filtroAtual !== "todos") {
+        if (filtroAtual === "aprovado") filtrados = indicados.filter(u => u.status === "Aprovado");
+        else if (filtroAtual === "pendente") filtrados = indicados.filter(u => u.status === "Pendente");
+        else if (filtroAtual === "reprovado") filtrados = indicados.filter(u => u.status === "Reprovado");
+        else if (filtroAtual === "aguardando") filtrados = indicados.filter(u => u.status === "Aguardando Comprovante");
+    }
+    
+    let container = document.getElementById("listaIndicados");
+    
+    if (filtrados.length === 0) {
+        container.innerHTML = `<div style="text-align:center; padding:20px; color:#94a3b8;">📭 Nenhum indicado ${filtroAtual !== "todos" ? "com este status" : ""}</div>`;
+        return;
+    }
+    
+    container.innerHTML = "";
+    filtrados.forEach(indicado => {
+        let statusClass = "";
+        let statusText = "";
+        if (indicado.status === "Aprovado") {
+            statusClass = "aprovado";
+            statusText = "✅ Aprovado";
+        } else if (indicado.status === "Pendente") {
+            statusClass = "pendente";
+            statusText = "⏳ Pendente - Aguardando análise";
+        } else if (indicado.status === "Reprovado") {
+            statusClass = "reprovado";
+            statusText = "❌ Reprovado";
+        } else if (indicado.status === "Aguardando Comprovante") {
+            statusClass = "aguardando";
+            statusText = "📎 Aguardando Comprovante";
+        }
+        
+        let dataCadastro = new Date(indicado.dataCadastro).toLocaleDateString();
+        
+        container.innerHTML += `
+        <div class="indicado-item ${statusClass}">
+            <div class="indicado-nome">${escapeHtml(indicado.nome)}</div>
+            <div class="indicado-email">📧 ${escapeHtml(indicado.email)}</div>
+            <div class="indicado-email">📱 ${escapeHtml(indicado.telefone)}</div>
+            <div class="indicado-email">📅 Cadastro: ${dataCadastro}</div>
+            <div class="indicado-status">${statusText}</div>
+        </div>
+        `;
+    });
+}
+
+function carregarApp() {
+    let email = localStorage.getItem("logado");
+    if (!email) return;
+
+    let usuarios = db();
+    let user = usuarios.find(u => u.email === email);
+    if (!user) {
+        logout();
+        return;
+    }
+
+    document.getElementById("auth").classList.add("hidden");
+    document.getElementById("admin").classList.add("hidden");
+    document.getElementById("app").classList.remove("hidden");
+
+    document.getElementById("userNome").innerText = user.nome;
+    document.getElementById("userEmail").innerText = user.email;
+    
+    let statusSpan = document.getElementById("status");
+    let statusText = user.status;
+    let statusClass = "";
+    if (statusText === "Aguardando Comprovante") statusClass = "status-aguardando_comprovante";
+    else if (statusText === "Pendente") statusClass = "status-pendente";
+    else if (statusText === "Aprovado") statusClass = "status-aprovado";
+    else statusClass = "status-reprovado";
+    
+    let statusDisplay = statusText === "Aguardando Comprovante" ? "⏳ Aguardando Comprovante" : statusText;
+    statusSpan.innerHTML = `<span class="status-badge ${statusClass}">${statusDisplay}</span>`;
+    
+    document.getElementById("nivel").innerText = "📊 " + (user.nivel === 1 ? "Membro" : "Vip");
+    
+    let filaValor = user.fila;
+    if (user.status === "Pendente") filaValor = "⏳ Aguardando aprovação";
+    else if (user.status === "Reprovado") filaValor = "❌ Reprovado - Contate o suporte";
+    else if (user.status === "Aguardando Comprovante") filaValor = "📎 Envie seu comprovante";
+    else if (typeof filaValor === "number") filaValor = `🎫 ${filaValor}º lugar`;
+    document.getElementById("fila").innerHTML = filaValor;
+    
+    let emailHash = codificarEmailParaLink(user.email);
+    let linkCompleto = `${getBaseUrl()}?ref=${emailHash}`;
+    document.getElementById("meuLinkIndicacao").value = linkCompleto;
+    
+    document.getElementById("totalIndicacoes").innerText = user.totalIndicacoes || 0;
+    document.getElementById("indicadosPendentes").innerText = user.indicadosPendentes || 0;
+    document.getElementById("indicadosAprovados").innerText = user.indicadosAprovados || 0;
+    document.getElementById("indicadosReprovados").innerText = user.indicadosReprovados || 0;
+    document.getElementById("indicadosAguardando").innerText = user.indicadosAguardando || 0;
+    
+    renderizarListaIndicados(user.email);
+    
+    let imgComp = document.getElementById("imgComp");
+    let comprovanteStatus = document.getElementById("comprovanteStatus");
+    
+    if (user.comprovante) {
+        imgComp.src = user.comprovante;
+        imgComp.style.display = "block";
+        comprovanteStatus.innerHTML = "✅ Comprovante enviado em " + new Date(user.dataCadastro).toLocaleDateString();
+        comprovanteStatus.style.color = "#10b981";
+    } else {
+        imgComp.style.display = "none";
+        if (user.status === "Aguardando Comprovante") {
+            comprovanteStatus.innerHTML = "⚠️ Você ainda não enviou seu comprovante. Envie acima para prosseguir.";
+            comprovanteStatus.style.color = "#f59e0b";
+        } else {
+            comprovanteStatus.innerHTML = "Nenhum comprovante enviado";
+            comprovanteStatus.style.color = "#94a3b8";
+        }
+    }
+
+    let oldAlerts = document.querySelectorAll("#app .alert, #app .success");
+    oldAlerts.forEach(el => el.remove());
+
+    if (user.status === "Aguardando Comprovante") {
+        let card = document.querySelector("#app .card");
+        let msg = document.createElement("div");
+        msg.className = "alert";
+        msg.innerHTML = "📎 Seu cadastro foi criado! Agora envie seu comprovante de pagamento para prosseguir.";
+        if(card) card.insertAdjacentElement('afterend', msg);
+    } else if (user.status === "Pendente") {
+        let card = document.querySelector("#app .card");
+        let msg = document.createElement("div");
+        msg.className = "alert";
+        msg.innerHTML = "⏳ Seu comprovante está aguardando análise. Em breve você receberá a confirmação.";
+        if(card) card.insertAdjacentElement('afterend', msg);
+    }
+}
+
+function copiarLink() {
+    let linkInput = document.getElementById("meuLinkIndicacao");
+    linkInput.select();
+    document.execCommand("copy");
+    
+    let btn = event.target;
+    let originalText = btn.innerText;
+    btn.innerText = "✅ Copiado!";
+    setTimeout(() => {
+        btn.innerText = originalText;
+    }, 2000);
+}
+
+function enviarWhatsApp() {
+    let userNome = document.getElementById("userNome").innerText;
+    let userEmail = document.getElementById("userEmail").innerText;
+    let link = document.getElementById("meuLinkIndicacao").value;
+    let telefone = document.getElementById("whatsappNumero").value.trim();
+    
+    if (!telefone) {
+        alert("❌ Por favor, digite o número do WhatsApp!");
+        return;
+    }
+    
+    let numeroLimpo = telefone.replace(/\D/g, '');
+    
+    if (numeroLimpo.length === 10 || numeroLimpo.length === 11) {
+        numeroLimpo = '55' + numeroLimpo;
+    }
+    
+    let mensagem = `*🔄 Ciclo de Ajuda Mútua*\n\nOlá! ${userNome} está te convidando para participar do nosso sistema de ajuda mútua.\n\n🔗 Link de cadastro: ${link}\n\n📝 Ao se cadastrar, use o e-mail do indicador: ${userEmail}\n\nApós criar a conta, faça login e envie o comprovante no painel.\n\nVenha fazer parte! 💚`;
+    
+    let url = `https://wa.me/${numeroLimpo}?text=${encodeURIComponent(mensagem)}`;
+    window.open(url, '_blank');
+}
+
+// ========== ADMIN ==========
+function abrirAdmin() {
+    document.getElementById("auth").classList.add("hidden");
+    document.getElementById("app").classList.add("hidden");
+    document.getElementById("admin").classList.remove("hidden");
+    document.getElementById("painelAdmin").classList.add("hidden");
+    document.getElementById("adminSenha").value = "";
+}
+
+function loginAdmin() {
+    let senha = document.getElementById("adminSenha").value;
+    if (senha !== ADMIN_SENHA) {
+        alert("🔒 Senha de administrador incorreta!");
+        return;
+    }
+    document.getElementById("painelAdmin").classList.remove("hidden");
+    listarUsuarios();
+}
+
+function listarUsuarios() {
+    let usuarios = db();
+    let painel = document.getElementById("painelAdmin");
+    if (!usuarios.length) {
+        painel.innerHTML = `<div class="card">📭 Nenhum usuário cadastrado ainda.</div>`;
+        return;
+    }
+
+    painel.innerHTML = `<h3 style="margin-top:0;">👥 Gerenciar Usuários (${usuarios.length})</h3>`;
+    
+    let ordenados = [...usuarios].reverse();
+    
+    ordenados.forEach((u) => {
+        let statusClass = "";
+        if (u.status === "Aprovado") statusClass = "status-aprovado";
+        else if (u.status === "Pendente") statusClass = "status-pendente";
+        else if (u.status === "Aguardando Comprovante") statusClass = "status-aguardando_comprovante";
+        else statusClass = "status-reprovado";
+        
+        let filaDisplay = "";
+        if (u.status === "Aprovado") filaDisplay = `🎫 ${u.fila}º lugar`;
+        else if (u.status === "Pendente") filaDisplay = "⏳ Aguardando";
+        else if (u.status === "Aguardando Comprovante") filaDisplay = "📎 Aguardando comprovante";
+        else filaDisplay = "❌ Reprovado";
+        
+        let indicadorInfo = "";
+        if (u.indicadoPor) {
+            let indicador = usuarios.find(i => i.email === u.indicadoPor);
+            if (indicador) {
+                indicadorInfo = `<div class="info-row"><span class="info-label">🔗 Indicado por:</span> ${escapeHtml(indicador.nome)} (${indicador.email})</div>`;
+            }
+        }
+        
+        let linkCompleto = `${getBaseUrl()}?ref=${codificarEmailParaLink(u.email)}`;
+        
+        let comprovanteHtml = u.comprovante ? 
+            `<img src="${u.comprovante}" alt="comprovante" style="max-height:150px; object-fit:contain;">` :
+            `<div style="padding:20px; text-align:center; background:#1e293b; border-radius:12px;">📭 Nenhum comprovante enviado ainda</div>`;
+        
+        painel.innerHTML += `
+        <div class="card user-card" data-id="${u.id}">
+            <div class="info-row"><span class="info-label">👤 Nome:</span> <strong>${escapeHtml(u.nome)}</strong></div>
+            <div class="info-row"><span class="info-label">📧 Email:</span> ${escapeHtml(u.email)}</div>
+            <div class="info-row"><span class="info-label">📱 Telefone:</span> ${escapeHtml(u.telefone)}</div>
+            <div class="info-row"><span class="info-label">💬 WhatsApp:</span> ${escapeHtml(u.whatsapp)}</div>
+            <div class="info-row"><span class="info-label">💳 Pix:</span> ${escapeHtml(u.pix)}</div>
+            <div class="info-row"><span class="info-label">🔗 Link Indicação:</span> <code style="font-size:11px; word-break:break-all;">${linkCompleto}</code></div>
+            ${indicadorInfo}
+            <div class="info-row"><span class="info-label">📌 Status:</span> <span class="status-badge ${statusClass}">${u.status === "Aguardando Comprovante" ? "Aguardando Comprovante" : u.status}</span></div>
+            <div class="info-row"><span class="info-label">🎯 Posição:</span> ${filaDisplay}</div>
+            <div class="info-row"><span class="info-label">🏆 Indicações:</span> ${u.totalIndicacoes || 0} (${u.indicadosAprovados || 0} aprovadas)</div>
+            <div style="margin-top:12px;"><span class="info-label">🖼️ Comprovante:</span></div>
+            ${comprovanteHtml}
+            <div class="button-group" style="margin-top:15px;">
+                ${u.status !== "Aprovado" && u.status !== "Aguardando Comprovante" ? `<button class="secondary" onclick="aprovar('${u.id}')">✅ Aprovar</button>` : 
+                  u.status === "Aguardando Comprovante" ? `<button disabled style="opacity:0.5; background:gray;">⏳ Aguardando Comprovante</button>` :
+                  `<button disabled style="opacity:0.5; background:gray;">✅ Aprovado</button>`}
+                ${u.status !== "Reprovado" && u.status !== "Aguardando Comprovante" ? `<button class="warning" onclick="reprovar('${u.id}')">❌ Reprovar</button>` : 
+                  u.status === "Aguardando Comprovante" ? `<button disabled style="opacity:0.5;">⏳ Sem comprovante</button>` :
+                  `<button disabled style="opacity:0.5;">❌ Reprovado</button>`}
+                <button class="danger" onclick="abrirModalExcluir('${u.id}', '${escapeHtml(u.nome)}')">🗑️ Excluir</button>
+            </div>
+        </div>`;
+    });
+}
+
+function escapeHtml(str) {
+    if (!str) return "";
+    return str.replace(/[&<>]/g, function(m) {
+        if (m === '&') return '&amp;';
+        if (m === '<') return '&lt;';
+        if (m === '>') return '&gt;';
+        return m;
+    });
+}
+
+function aprovar(userId) {
+    let usuarios = db();
+    let index = usuarios.findIndex(u => u.id == userId);
+    if (index !== -1 && usuarios[index].status !== "Aprovado" && usuarios[index].status !== "Aguardando Comprovante") {
+        usuarios[index].status = "Aprovado";
+        
+        let aprovados = usuarios.filter(u => u.status === "Aprovado");
+        aprovados.sort((a,b) => new Date(a.dataCadastro) - new Date(b.dataCadastro));
+        let pos = 1;
+        for (let ap of aprovados) {
+            let idx = usuarios.findIndex(u => u.id === ap.id);
+            if (idx !== -1) usuarios[idx].fila = pos++;
+        }
+        
+        for (let u of usuarios) {
+            if (u.status === "Pendente") u.fila = "Aguardando";
+            if (u.status === "Reprovado") u.fila = "Reprovado";
+            if (u.status === "Aguardando Comprovante") u.fila = "Aguardando envio";
+        }
+        
+        salvarDB(usuarios);
+        
+        if (usuarios[index].indicadoPor) {
+            atualizarEstatisticasIndicacao(usuarios[index].indicadoPor);
+        }
+        
+        listarUsuarios();
+        alert(`✅ Usuário ${usuarios[index].nome} foi APROVADO e entrou na fila!`);
+        
+        let logadoEmail = localStorage.getItem("logado");
+        if (logadoEmail && usuarios[index].email === logadoEmail) {
+            carregarApp();
+        }
+    } else {
+        alert(usuarios[index]?.status === "Aguardando Comprovante" ? 
+            "⚠️ Usuário ainda não enviou comprovante. Aguarde o envio para aprovar." : 
+            "Usuário já aprovado ou não encontrado.");
+    }
+}
+
+function reprovar(userId) {
+    let usuarios = db();
+    let index = usuarios.findIndex(u => u.id == userId);
+    if (index !== -1 && usuarios[index].status !== "Reprovado" && usuarios[index].status !== "Aguardando Comprovante") {
+        usuarios[index].status = "Reprovado";
+        usuarios[index].fila = "Reprovado";
+        salvarDB(usuarios);
+        listarUsuarios();
+        alert(`⚠️ Usuário ${usuarios[index].nome} foi REPROVADO.`);
+        
+        let logadoEmail = localStorage.getItem("logado");
+        if (logadoEmail && usuarios[index].email === logadoEmail) {
+            carregarApp();
+        }
+    } else {
+        alert(usuarios[index]?.status === "Aguardando Comprovante" ?
+            "⚠️ Usuário ainda não enviou comprovante." :
+            "Usuário já reprovado.");
+    }
+}
+
+function logout() {
+    localStorage.removeItem("logado");
+    location.reload();
+}
+
+function verificarIndicacaoUrl() {
+    let urlParams = new URLSearchParams(window.location.search);
+    let ref = urlParams.get('ref');
+    if (ref) {
+        let decodedEmail = decodificarEmailDoLink(ref);
+        if (decodedEmail) {
+            setTimeout(() => {
+                let codigoInput = document.getElementById("modalCodigoIndicacao");
+                if (codigoInput) {
+                    codigoInput.value = decodedEmail;
+                    let msg = document.createElement("div");
+                    msg.className = "success";
+                    msg.innerHTML = `🔗 Você foi convidado por alguém! O e-mail do indicador (${decodedEmail}) foi preenchido automaticamente.`;
+                    let modalContent = document.querySelector("#modalCadastro .modal-content");
+                    if (modalContent && !modalContent.querySelector(".success")) {
+                        modalContent.insertBefore(msg, modalContent.children[2]);
+                        setTimeout(() => msg.remove(), 5000);
+                    }
+                }
+            }, 500);
+        }
+    }
+}
+
+function inicializarSistema() {
+    let usuarios = db();
+    let precisaAtualizar = false;
+    
+    for (let u of usuarios) {
+        if (u.status === "Aprovado" && (typeof u.fila !== "number" || u.fila === "Aguardando")) {
+            precisaAtualizar = true;
+            break;
+        }
+        if (u.status === "Pendente" && u.fila !== "Aguardando") precisaAtualizar = true;
+        if (u.status === "Reprovado" && u.fila !== "Reprovado") precisaAtualizar = true;
+        if (u.status === "Aguardando Comprovante" && u.fila !== "Aguardando envio") precisaAtualizar = true;
+    }
+    
+    if (precisaAtualizar || usuarios.length > 0) {
+        let aprovados = usuarios.filter(u => u.status === "Aprovado");
+        aprovados.sort((a,b) => (a.dataCadastro || a.id) - (b.dataCadastro || b.id));
+        let pos = 1;
+        for (let ap of aprovados) {
+            let idx = usuarios.findIndex(u => u.id === ap.id);
+            if (idx !== -1) usuarios[idx].fila = pos++;
+        }
+        for (let u of usuarios) {
+            if (u.status === "Pendente") u.fila = "Aguardando";
+            if (u.status === "Reprovado") u.fila = "Reprovado";
+            if (u.status === "Aguardando Comprovante") u.fila = "Aguardando envio";
+        }
+        salvarDB(usuarios);
+    }
+    
+    let logado = localStorage.getItem("logado");
+    if (logado) {
+        let userExists = usuarios.find(u => u.email === logado);
+        if (userExists) {
+            carregarApp();
+        } else {
+            logout();
+        }
+    } else {
+        document.getElementById("auth").classList.remove("hidden");
+        document.getElementById("app").classList.add("hidden");
+        document.getElementById("admin").classList.add("hidden");
+        verificarIndicacaoUrl();
+    }
+    
+    document.getElementById("modalCadastro").addEventListener("click", function(e) {
+        if (e.target === this) {
+            fecharModalCadastro();
+        }
+    });
+    
+    document.getElementById("modalExcluir").addEventListener("click", function(e) {
+        if (e.target === this) {
+            fecharModalExcluir();
+        }
+    });
+}
+
+inicializarSistema();
+</script>
+</body>
+</html>
